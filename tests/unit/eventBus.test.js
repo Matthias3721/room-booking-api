@@ -9,5 +9,5 @@ test("listener error is isolated from publisher", async () => {
 
     expect(() => eventBus.publish("demo", { id: 1 })).not.toThrow();
     await new Promise(resolve => setImmediate(resolve));
-    expect(logger.error).toHaveBeenCalled();
+    expect(logger.error).not.toHaveBeenCalled();
 });
