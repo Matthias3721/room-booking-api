@@ -1,0 +1,91 @@
+@baseUrl = http://localhost:3000
+@userToken = WKLEJ_TOKEN_USER
+@annaToken = WKLEJ_TOKEN_ANNY
+@adminToken = WKLEJ_TOKEN_ADMIN
+
+### Register
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "student@example.com",
+  "password": "bardzo-dlugie-haslo"
+}
+
+### Login USER Jan
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "jan@example.com",
+  "password": "user-password-123"
+}
+
+### Login ADMIN
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "admin-password-123"
+}
+
+### Me
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer {{userToken}}
+
+### USER buildings GET - 200
+GET {{baseUrl}}/api/buildings
+Authorization: Bearer {{userToken}}
+
+### USER buildings POST - 403
+POST {{baseUrl}}/api/buildings
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "Budynek USER",
+  "address": "ul. Testowa 1"
+}
+
+### ADMIN buildings POST - 201
+POST {{baseUrl}}/api/buildings
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "name": "Budynek ADMIN",
+  "address": "ul. Admina 1"
+}
+
+### USER reservations - only own
+GET {{baseUrl}}/api/reservations
+Authorization: Bearer {{userToken}}
+
+### USER userId filter - 403
+GET {{baseUrl}}/api/reservations?userId=3
+Authorization: Bearer {{userToken}}
+
+### ADMIN filter by user
+GET {{baseUrl}}/api/reservations?userId=2
+Authorization: Bearer {{adminToken}}
+
+### Jan reads own reservation - 200
+GET {{baseUrl}}/api/reservations/3
+Authorization: Bearer {{userToken}}
+
+### Anna reads Jan reservation - 404
+GET {{baseUrl}}/api/reservations/3
+Authorization: Bearer {{annaToken}}
+
+### Create reservation - user comes from token
+POST {{baseUrl}}/api/reservations
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "roomId": 5,
+  "participants": 5,
+  "startTime": "2027-03-10T10:00:00.000Z",
+  "endTime": "2027-03-10T11:00:00.000Z"
+}
