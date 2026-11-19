@@ -17,8 +17,8 @@ module.exports = {
     openapi: "3.0.3",
     info: {
         title: "Room Booking API",
-        version: "4.0.0",
-        description: "Zadanie 04 - authentication, authorization i konfiguracja"
+        version: "5.0.0",
+        description: "Zadanie 05 - testy, Docker Compose, eventy i CI"
     },
     servers: [{ url: "http://localhost:3000" }],
     components: {
